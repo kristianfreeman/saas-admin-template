@@ -1,0 +1,17 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getSubscriptions } from '@/lib/api';
+
+const baseUrl = Astro.url.origin;
+const subscriptionsResponse = await getSubscriptions(baseUrl);
+
+import { SubscriptionsTable } from '@/components/admin/subscriptions-table';
+---
+
+<Layout title="Subscriptions">
+  {subscriptionsResponse.success ? (
+    <SubscriptionsTable data={subscriptionsResponse.subscriptions} />
+  ) : (
+    <p>No subscriptions yet</p>
+  )}
+</Layout>

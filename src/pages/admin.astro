@@ -2,8 +2,12 @@
 import Layout from '@/layouts/Layout.astro';
 import { BadgeDollarSign, CalendarSync, User } from 'lucide-react';
 import { getCustomers, getSubscriptions, getUserSubscriptions } from '@/lib/api';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 const baseUrl = Astro.url.origin;
+console.log(Astro.locals);
+const apiToken = Astro.locals.runtime.env.API_TOKEN;
 
 const customersResponse = await getCustomers(baseUrl);
 const subscriptionsResponse = await getSubscriptions(baseUrl);
@@ -33,7 +37,7 @@ const data = [
 
 <Layout title="Admin">
   <div class="space-y-8">
-    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-4">
       {data.map((item) => (
         <a class="rounded-xl border bg-card text-card-foreground hover:bg-muted shadow transition-colors" href={item.href}>
           <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
@@ -48,10 +52,17 @@ const data = [
       ))}
     </div>
 
-    <section>
+    <section class="space-y-4">
       <h2 class="text-3xl font-bold tracking-tight">API Docs</h2>
 
-      <p>Your API token is <code>admin</code></p>
+      <div class="max-w-md">
+        <Label>
+          API Token
+          <div class="flex items-center space-x-2">
+            <Input placeholder="API token" readOnly value={apiToken} />
+          </div>
+        </Label>
+      </div>
 
       <div>
         <h3>GET /api/customers</h3>

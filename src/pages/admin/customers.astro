@@ -1,0 +1,17 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getCustomers } from '@/lib/api';
+
+const baseUrl = Astro.url.origin;
+const customersResponse = await getCustomers(baseUrl);
+
+import { CustomersTable } from '@/components/admin/customers-table';
+---
+
+<Layout title="Customers">
+  {customersResponse.success ? (
+    <CustomersTable data={customersResponse.customers} />
+  ) : (
+    <p>No customers yet</p>
+  )}
+</Layout>
