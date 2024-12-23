@@ -1,26 +1,40 @@
 import { validateApiTokenResponse } from "@/lib/api";
 
-export async function GET({ locals, params, request }) {
+export async function GET({ locals, request }) {
   const { API_TOKEN, DB } = locals.runtime.env;
 
   const invalidTokenResponse = await validateApiTokenResponse(request, API_TOKEN);
   if (invalidTokenResponse) return invalidTokenResponse;
 
-  const { include_subscriptions } = params;
-
-  let query
-  if (include_subscriptions) {
-    query = `SELECT * FROM customers JOIN subscriptions ON customers.id = subscriptions.customer_id`;
-  } else {
-    query = `SELECT * FROM customers`;
-  }
+  const query = `
+    SELECT 
+      customers.*,
+      customer_subscriptions.id as subscription_id,
+      customer_subscriptions.status as subscription_status
+    FROM customers 
+    LEFT JOIN customer_subscriptions 
+      ON customers.id = customer_subscriptions.customer_id
+  `;
 
   const response = await DB.prepare(query).all();
 
   if (response.success) {
-    return Response.json({
-      customers: response.results
+    const formattedResults = response.results.map(row => {
+      const customer = { ...row };
+
+      if (row.subscription_id) {
+        customer.subscription = {
+          id: row.subscription_id,
+          status: row.subscription_status
+        };
+      }
+
+      delete customer.subscription_id;
+      delete customer.subscription_status;
+      return customer;
     });
+
+    return Response.json({ customers: formattedResults });
   } else {
     return Response.json({ message: "Couldn't load customers" }, { status: 500 });
   }

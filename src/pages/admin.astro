@@ -8,11 +8,11 @@ import { Input } from '@/components/ui/input';
 import { getCustomers, getSubscriptions, getUserSubscriptions } from '@/lib/api';
 
 const baseUrl = Astro.url.origin;
-const apiToken = Astro.locals.runtime.env.API_TOKEN;
+const { API_TOKEN, DB } = Astro.locals.runtime.env;
 
-const customersResponse = await getCustomers(baseUrl);
-const subscriptionsResponse = await getSubscriptions(baseUrl);
-const userSubscriptionsResponse = await getUserSubscriptions(baseUrl);
+const customersResponse = await getCustomers(baseUrl, API_TOKEN);
+const subscriptionsResponse = await getSubscriptions(baseUrl, API_TOKEN);
+const userSubscriptionsResponse = await getUserSubscriptions(baseUrl, API_TOKEN);
 
 const data = [
   {

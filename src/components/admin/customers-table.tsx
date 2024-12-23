@@ -36,6 +36,10 @@ const columns: ColumnDef<Customer>[] = [
     header: 'Notes',
     cell: info => info.getValue(),
   }),
+  columnHelper.accessor('subscription.status', {
+    header: 'Subscription',
+    cell: info => info.getValue(),
+  }),
   columnHelper.accessor('created_at', {
     header: 'Created At',
     cell: info => new Date(info.getValue()).toLocaleDateString(),

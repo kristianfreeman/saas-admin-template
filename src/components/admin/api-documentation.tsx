@@ -43,14 +43,6 @@ const apiEndpoints: APIEndpoint[] = [
     method: 'GET',
     path: '/api/customers',
     description: 'Retrieve a list of all customers',
-    parameters: [
-      {
-        name: "include_subscriptions",
-        type: 'boolean',
-        required: false,
-        description: "Include the user's subscriptions in the response"
-      }
-    ],
     responses: [
       {
         name: 'Response',
@@ -74,7 +66,11 @@ const apiEndpoints: APIEndpoint[] = [
           {
             id: 1,
             name: 'John Doe',
-            email: 'john@example.com'
+            email: 'john@example.com',
+            subscription: {
+              id: 1,
+              status: 'active'
+            },
           },
           {
             id: 2,
@@ -82,7 +78,7 @@ const apiEndpoints: APIEndpoint[] = [
             email: 'jane@example.com'
           }
         ],
-        description: 'Returns an array of customer objects, including subscriptions',
+        description: 'If subscriptions are active for a customer, some information about the subscription will be included in the response.',
       }
     ]
   },

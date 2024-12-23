@@ -11,7 +11,7 @@ import { SubscriptionsTable } from '@/components/admin/subscriptions-table';
 ---
 
 <Layout title="Subscriptions">
-  {subscriptionsResponse.success ? (
+  {subscriptionsResponse.subscriptions.length ? (
     <SubscriptionsTable data={subscriptionsResponse.subscriptions} />
   ) : (
     <p>No subscriptions yet</p>

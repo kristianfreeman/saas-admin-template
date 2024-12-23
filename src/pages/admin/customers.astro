@@ -11,7 +11,7 @@ import { CreateCustomerButton } from '@/components/admin/create-customer';
 ---
 
 <Layout title="Customers">
-  {customersResponse.success ? (
+  {customersResponse.customers.length ? (
     <CustomersTable data={customersResponse.customers} />
   ) : (
     <p>No customers yet</p>
