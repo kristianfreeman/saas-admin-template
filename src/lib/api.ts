@@ -52,8 +52,12 @@ export const validateApiToken = async (request, apiToken) => {
   }
 };
 
-export const getCustomers = async (baseUrl) => {
-  const response = await fetch(baseUrl + '/api/customers');
+export const getCustomers = async (baseUrl, apiToken) => {
+  const response = await fetch(baseUrl + '/api/customers', {
+    headers: {
+      'Authorization': `Bearer ${apiToken}`
+    }
+  });
   if (response.ok) {
     const data = await response.json();
     return {
@@ -69,10 +73,11 @@ export const getCustomers = async (baseUrl) => {
   }
 };
 
-export const createCustomer = async (baseUrl, customer) => {
+export const createCustomer = async (baseUrl, apiToken, customer) => {
   const response = await fetch(baseUrl + '/api/customers', {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${apiToken}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(customer)
@@ -92,10 +97,11 @@ export const createCustomer = async (baseUrl, customer) => {
   }
 };
 
-export const createSubscription = async (baseUrl, subscription) => {
+export const createSubscription = async (baseUrl, apiToken, subscription) => {
   const response = await fetch(baseUrl + '/api/subscriptions', {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${apiToken}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(subscription)
@@ -115,8 +121,12 @@ export const createSubscription = async (baseUrl, subscription) => {
   }
 };
 
-export const getSubscriptions = async (baseUrl) => {
-  const response = await fetch(baseUrl + '/api/subscriptions');
+export const getSubscriptions = async (baseUrl, apiToken) => {
+  const response = await fetch(baseUrl + '/api/subscriptions', {
+    headers: {
+      'Authorization': `Bearer ${apiToken}`
+    }
+  });
   if (response.ok) {
     const data = await response.json();
     return {
@@ -132,8 +142,12 @@ export const getSubscriptions = async (baseUrl) => {
   }
 };
 
-export const getUserSubscriptions = async (baseUrl) => {
-  const response = await fetch(baseUrl + '/api/user_subscriptions');
+export const getUserSubscriptions = async (baseUrl, apiToken) => {
+  const response = await fetch(baseUrl + '/api/user_subscriptions', {
+    headers: {
+      'Authorization': `Bearer ${apiToken}`
+    }
+  }); 
   if (response.ok) {
     const data = await response.json();
     return {

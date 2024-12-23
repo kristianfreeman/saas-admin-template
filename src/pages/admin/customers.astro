@@ -2,8 +2,9 @@
 import Layout from '@/layouts/Layout.astro';
 import { getCustomers } from '@/lib/api';
 
+const { API_TOKEN } = Astro.locals.runtime.env;
 const baseUrl = Astro.url.origin;
-const customersResponse = await getCustomers(baseUrl);
+const customersResponse = await getCustomers(baseUrl, API_TOKEN);
 
 import { CustomersTable } from '@/components/admin/customers-table';
 import { CreateCustomerButton } from '@/components/admin/create-customer';
@@ -17,6 +18,6 @@ import { CreateCustomerButton } from '@/components/admin/create-customer';
   )}
 
   <div slot="actions">
-    <CreateCustomerButton client:only="react" />
+    <CreateCustomerButton apiToken={API_TOKEN} client:only="react" />
   </div>
 </Layout>

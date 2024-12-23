@@ -2,8 +2,9 @@
 import Layout from '@/layouts/Layout.astro';
 import { getSubscriptions } from '@/lib/api';
 
+const { API_TOKEN } = Astro.locals.runtime.env;
 const baseUrl = Astro.url.origin;
-const subscriptionsResponse = await getSubscriptions(baseUrl);
+const subscriptionsResponse = await getSubscriptions(baseUrl, API_TOKEN);
 
 import { CreateSubscriptionButton } from '@/components/admin/create-subscription';
 import { SubscriptionsTable } from '@/components/admin/subscriptions-table';
@@ -17,6 +18,6 @@ import { SubscriptionsTable } from '@/components/admin/subscriptions-table';
   )}
 
   <div slot="actions">
-    <CreateSubscriptionButton client:only="react" />
+    <CreateSubscriptionButton apiToken={API_TOKEN} client:only="react" />
   </div>
 </Layout>

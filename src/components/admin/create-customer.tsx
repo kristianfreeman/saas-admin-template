@@ -32,7 +32,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
-export function CreateCustomerButton() {
+export function CreateCustomerButton({ apiToken }: { apiToken: string }) {
   const [open, setOpen] = useState(false)
 
   // Initialize the form
@@ -52,7 +52,7 @@ export function CreateCustomerButton() {
       console.log("Form submitted:", data)
 
       const url = new URL(window.location.href)
-      const response = await createCustomer(url.origin, data)
+      const response = await createCustomer(url.origin, apiToken, data)
 
       if (!response.success) {
         throw new Error("Failed to create customer")

@@ -41,7 +41,7 @@ type Feature = {
   description?: string;
 }
 
-export function CreateSubscriptionButton() {
+export function CreateSubscriptionButton({ apiToken }: { apiToken: string }) {
   const [open, setOpen] = useState(false)
   const [features, setFeatures] = useState<Feature[]>([])
   const [newFeature, setNewFeature] = useState<Feature>({ name: '', description: '' })
@@ -75,7 +75,7 @@ export function CreateSubscriptionButton() {
   const onSubmit = async (data: FormValues) => {
     try {
       const url = new URL(window.location.href)
-      const response = await createSubscription(url.origin, {
+      const response = await createSubscription(url.origin, apiToken, {
         ...data,
         features: features,
       })
