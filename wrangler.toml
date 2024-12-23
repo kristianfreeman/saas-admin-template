@@ -1,5 +1,5 @@
 #:schema node_modules/wrangler/config-schema.json
-name = "saas-template"
+name = "saas-admin-template"
 compatibility_date = "2024-12-18"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "./dist"
@@ -16,8 +16,8 @@ pages_build_output_dir = "./dist"
 # - https://developers.cloudflare.com/pages/functions/bindings/#environment-variables
 # Note: Use secrets to store sensitive data.
 # - https://developers.cloudflare.com/pages/functions/bindings/#secrets
-# [vars]
-# MY_VARIABLE = "production_value"
+[vars]
+EXAMPLE_VALUE = "example_value"
 
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#workers-ai
@@ -26,10 +26,10 @@ pages_build_output_dir = "./dist"
 
 # Bind a D1 database. D1 is Cloudflare’s native serverless SQL database.
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#d1-databases
-# [[d1_databases]]
-# binding = "MY_DB"
-# database_name = "my-database"
-# database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+[[d1_databases]]
+binding = "DB"
+database_name = "admin-db"
+database_id = "b33ea9ff-6aef-4b5c-b3fd-94f25295b08a"
 
 # Bind a Durable Object. Durable objects are a scale-to-zero compute primitive based on the actor model.
 # Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.
