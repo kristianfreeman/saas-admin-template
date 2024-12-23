@@ -142,8 +142,8 @@ export const getSubscriptions = async (baseUrl, apiToken) => {
   }
 };
 
-export const getUserSubscriptions = async (baseUrl, apiToken) => {
-  const response = await fetch(baseUrl + '/api/user_subscriptions', {
+export const getCustomerSubscriptions = async (baseUrl, apiToken) => {
+  const response = await fetch(baseUrl + '/api/customer_subscriptions', {
     headers: {
       'Authorization': `Bearer ${apiToken}`
     }
@@ -151,13 +151,13 @@ export const getUserSubscriptions = async (baseUrl, apiToken) => {
   if (response.ok) {
     const data = await response.json();
     return {
-      subscriptions: data.subscriptions,
+      customer_subscriptions: data.customer_subscriptions,
       success: true
     }
   } else {
-    console.error("Failed to fetch user subscriptions");
+    console.error("Failed to fetch customer subscriptions");
     return {
-      subscriptions: [],
+      customer_subscriptions: [],
       success: false
     }
   }
