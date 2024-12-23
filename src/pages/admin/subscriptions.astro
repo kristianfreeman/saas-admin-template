@@ -5,6 +5,7 @@ import { getSubscriptions } from '@/lib/api';
 const baseUrl = Astro.url.origin;
 const subscriptionsResponse = await getSubscriptions(baseUrl);
 
+import { CreateSubscriptionButton } from '@/components/admin/create-subscription';
 import { SubscriptionsTable } from '@/components/admin/subscriptions-table';
 ---
 
@@ -14,4 +15,8 @@ import { SubscriptionsTable } from '@/components/admin/subscriptions-table';
   ) : (
     <p>No subscriptions yet</p>
   )}
+
+  <div slot="actions">
+    <CreateSubscriptionButton client:only="react" />
+  </div>
 </Layout>

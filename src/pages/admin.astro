@@ -1,12 +1,13 @@
 ---
-import Layout from '@/layouts/Layout.astro';
 import { BadgeDollarSign, CalendarSync, User } from 'lucide-react';
-import { getCustomers, getSubscriptions, getUserSubscriptions } from '@/lib/api';
+
+import Layout from '@/layouts/Layout.astro';
+import { APIDocumentation } from '@/components/admin/api-documentation';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { getCustomers, getSubscriptions, getUserSubscriptions } from '@/lib/api';
 
 const baseUrl = Astro.url.origin;
-console.log(Astro.locals);
 const apiToken = Astro.locals.runtime.env.API_TOKEN;
 
 const customersResponse = await getCustomers(baseUrl);
@@ -54,29 +55,8 @@ const data = [
 
     <section class="space-y-4">
       <h2 class="text-3xl font-bold tracking-tight">API Docs</h2>
-
-      <div class="max-w-md">
-        <Label>
-          API Token
-          <div class="flex items-center space-x-2">
-            <Input placeholder="API token" readOnly value={apiToken} />
-          </div>
-        </Label>
-      </div>
-
       <div>
-        <h3>GET /api/customers</h3>
-        <p>Returns a list of customers.</p>
-      </div>
-
-      <div>
-        <h3>GET /api/subscriptions</h3>
-        <p>Returns a list of subscriptions.</p>
-      </div>
-
-      <div>
-        <h3>GET /api/user_subscriptions</h3>
-        <p>Returns a list of user subscriptions.</p>
+        <APIDocumentation client:only="react" />
       </div>
     </section>
   </div>

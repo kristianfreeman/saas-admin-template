@@ -6,6 +6,7 @@ const baseUrl = Astro.url.origin;
 const customersResponse = await getCustomers(baseUrl);
 
 import { CustomersTable } from '@/components/admin/customers-table';
+import { CreateCustomerButton } from '@/components/admin/create-customer';
 ---
 
 <Layout title="Customers">
@@ -14,4 +15,8 @@ import { CustomersTable } from '@/components/admin/customers-table';
   ) : (
     <p>No customers yet</p>
   )}
+
+  <div slot="actions">
+    <CreateCustomerButton client:only="react" />
+  </div>
 </Layout>

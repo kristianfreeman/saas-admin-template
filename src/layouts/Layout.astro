@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Header } from '@/components/Header';
 
 const currentPath = Astro.url.pathname;
-const title = Astro.props.title;
+const title = Astro.props.title || 'SaaS Admin Template';
 ---
 
 <script is:inline>
@@ -38,7 +38,10 @@ const title = Astro.props.title;
   <body>
     <Header currentPath={currentPath} />
     <div class="flex-1 space-y-4 p-8 pt-6">
-      <h2 class="text-3xl font-bold tracking-tight">{title}</h2>
+      <div class="flex items-center justify-between">
+        <h2 class="text-3xl font-bold tracking-tight">{title}</h2>
+        <slot name="actions" />
+      </div>
       <slot />
     </div>
   </body>
