@@ -1,3 +1,57 @@
+import crypto from "node:crypto";
+
+const safeCompare = async (a, b) => {
+  if (typeof a !== 'string' || typeof b !== 'string') return false;
+  const encoder = new TextEncoder();
+  const aEncoded = encoder.encode(a);
+  const bEncoded = encoder.encode(b);
+  if (aEncoded.length !== bEncoded.length) return false;
+  return await crypto.timingSafeEqual(aEncoded, bEncoded);
+};
+
+export const validateApiTokenResponse = async (request, apiToken) => {
+  const successful = await validateApiToken(request, apiToken);
+  if (!successful) {
+    return Response.json({ message: "Invalid API token" }, { status: 401 });
+  }
+};
+
+export const validateApiToken = async (request, apiToken) => {
+  try {
+    if (!request?.headers?.get) {
+      console.error("Invalid request object");
+      return false;
+    }
+
+    if (!apiToken) {
+      console.error("No API token provided. Set one as an environment variable.");
+      return false;
+    }
+
+    const authHeader = request.headers.get('authorization');
+    const customTokenHeader = request.headers.get('x-api-token');
+
+    let tokenToValidate = customTokenHeader;
+
+    if (authHeader) {
+      if (authHeader.startsWith('Bearer ')) {
+        tokenToValidate = authHeader.substring(7);
+      } else if (authHeader.startsWith('Token ')) {
+        tokenToValidate = authHeader.substring(6);
+      } else {
+        tokenToValidate = authHeader;
+      }
+    }
+
+    if (!tokenToValidate || tokenToValidate.length === 0) return false;
+
+    return await safeCompare(apiToken.trim(), tokenToValidate.trim());
+  } catch (error) {
+    console.error("Error validating API token:", error);
+    return false;
+  }
+};
+
 export const getCustomers = async (baseUrl) => {
   const response = await fetch(baseUrl + '/api/customers');
   if (response.ok) {

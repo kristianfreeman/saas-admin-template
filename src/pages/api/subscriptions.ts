@@ -1,5 +1,11 @@
-export async function GET({ locals, params }) {
-  const { DB } = locals.runtime.env;
+import { validateApiTokenResponse } from "@/lib/api";
+
+export async function GET({ locals, params, request }) {
+  const { API_TOKEN, DB } = locals.runtime.env;
+
+  const invalidTokenResponse = await validateApiTokenResponse(request, API_TOKEN);
+  if (invalidTokenResponse) return invalidTokenResponse;
+
   const { include_subscriptions } = params;
 
   const query = `SELECT * FROM subscriptions`;
@@ -15,7 +21,11 @@ export async function GET({ locals, params }) {
 }
 
 export async function POST({ locals, request }) {
-  const { DB } = locals.runtime.env;
+  const { API_TOKEN, DB } = locals.runtime.env;
+
+  const invalidTokenResponse = await validateApiTokenResponse(request, API_TOKEN);
+  if (invalidTokenResponse) return invalidTokenResponse;
+
   const body = await request.json();
 
   // Create the subscription
@@ -26,7 +36,10 @@ export async function POST({ locals, request }) {
     .run();
 
   if (!subscriptionResponse.success) {
-    return Response.json({ message: "Failed to create subscription" }, { status: 500 });
+    return Response.json({ 
+      message: "Failed to create subscription",
+      status: false
+    }, { status: 500 });
   }
 
   const subscriptionId = subscriptionResponse.meta.last_row_id;
@@ -78,6 +91,6 @@ export async function POST({ locals, request }) {
     }
   }
 
-  return Response.json({ message: "Subscription created successfully", success: false }, { status: 201 });
+  return Response.json({ message: "Subscription created successfully", success: true }, { status: 201 });
 }
 
