@@ -1,0 +1,72 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { BadgeDollarSign, CalendarSync, User } from 'lucide-react';
+import { getCustomers, getSubscriptions, getUserSubscriptions } from '@/lib/api';
+
+const baseUrl = Astro.url.origin;
+
+const customersResponse = await getCustomers(baseUrl);
+const subscriptionsResponse = await getSubscriptions(baseUrl);
+const userSubscriptionsResponse = await getUserSubscriptions(baseUrl);
+
+const data = [
+  {
+    name: 'Customers',
+    value: customersResponse.customers.length,
+    icon: User,
+    href: '/admin/customers'
+  },
+  {
+    name: 'Subscriptions',
+    value: subscriptionsResponse.subscriptions.length,
+    icon: BadgeDollarSign,
+    href: '/admin/subscriptions'
+  },
+  {
+    name: 'User Subscriptions',
+    value: userSubscriptionsResponse.subscriptions.length,
+    icon: CalendarSync,
+    href: '/admin/customers'
+  }
+]
+---
+
+<Layout title="Admin">
+  <div class="space-y-8">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {data.map((item) => (
+        <a class="rounded-xl border bg-card text-card-foreground hover:bg-muted shadow transition-colors" href={item.href}>
+          <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+            <div class="tracking-tight text-sm font-medium">{item.name}</div>
+              <item.icon />
+            </div>
+            <div class="p-6 pt-0">
+              <div class="text-2xl font-bold">{item.value}</div>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <section>
+      <h2 class="text-3xl font-bold tracking-tight">API Docs</h2>
+
+      <p>Your API token is <code>admin</code></p>
+
+      <div>
+        <h3>GET /api/customers</h3>
+        <p>Returns a list of customers.</p>
+      </div>
+
+      <div>
+        <h3>GET /api/subscriptions</h3>
+        <p>Returns a list of subscriptions.</p>
+      </div>
+
+      <div>
+        <h3>GET /api/user_subscriptions</h3>
+        <p>Returns a list of user subscriptions.</p>
+      </div>
+    </section>
+  </div>
+</Layout>
