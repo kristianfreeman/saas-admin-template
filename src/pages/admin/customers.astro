@@ -14,7 +14,9 @@ import { CreateCustomerButton } from '@/components/admin/create-customer';
   {customersResponse.customers.length ? (
     <CustomersTable data={customersResponse.customers} />
   ) : (
-    <p>No customers yet</p>
+    <p class="font-medium text-muted-foreground">
+      No customers yet. Try creating one using the API or by selecting "Create New Customer" above.
+    </p>
   )}
 
   <div slot="actions">

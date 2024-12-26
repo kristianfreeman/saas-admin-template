@@ -14,7 +14,9 @@ import { SubscriptionsTable } from '@/components/admin/subscriptions-table';
   {subscriptionsResponse.subscriptions.length ? (
     <SubscriptionsTable data={subscriptionsResponse.subscriptions} />
   ) : (
-    <p>No subscriptions yet</p>
+    <p class="font-medium text-muted-foreground">
+      No subscriptions yet. Try creating one using the API or by selecting "Create New Subscription" above.
+    </p>
   )}
 
   <div slot="actions">
