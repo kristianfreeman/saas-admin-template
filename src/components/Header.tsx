@@ -1,8 +1,6 @@
-import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 const links = [
-  { href: '/', label: 'SaaS Admin Template' },
   { href: '/admin', label: 'Admin' },
   { href: '/admin/customers', label: 'Customers' },
   { href: '/admin/subscriptions', label: 'Subscriptions' },
@@ -10,7 +8,10 @@ const links = [
 
 export function Header({ currentPath }: { currentPath: string }) {
   return (
-    <nav class="flex items-center space-x-4 lg:space-x-6 mx-6 h-16">
+    <nav className="flex items-center space-x-4 lg:space-x-6 mx-6 h-16">
+      <a href="/" className="text-sm font-bold leading-none text-foreground">
+        SaaS Admin Template
+      </a>
       {links.map((link) => (
         <a
           className={cn(
