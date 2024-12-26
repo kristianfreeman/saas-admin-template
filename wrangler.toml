@@ -59,9 +59,10 @@ database_id = "b33ea9ff-6aef-4b5c-b3fd-94f25295b08a"
 
 # Bind another Worker service. Use this binding to call another Worker without network overhead.
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#service-bindings
-# [[services]]
-# binding = "MY_SERVICE"
-# service = "my-service"
+[[services]]
+binding = "CUSTOMER_WORKFLOW"
+service = "customer_workflow"
+script_name = "./src/workflows/customer_workflow"
 
 # To use different bindings for preview and production environments, follow the examples below.
 # When using environment-specific overrides for bindings, ALL bindings must be specified on a per-environment basis.

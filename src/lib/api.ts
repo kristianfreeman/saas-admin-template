@@ -1,5 +1,3 @@
-import crypto from "node:crypto";
-
 const safeCompare = async (a, b) => {
   if (typeof a !== 'string' || typeof b !== 'string') return false;
   const encoder = new TextEncoder();
@@ -68,6 +66,27 @@ export const getCustomers = async (baseUrl, apiToken) => {
     console.error("Failed to fetch customers");
     return {
       customers: [],
+      success: false
+    }
+  }
+};
+
+export const getCustomer = async (id, baseUrl, apiToken) => {
+  const response = await fetch(baseUrl + '/api/customers/' + id, {
+    headers: {
+      'Authorization': `Bearer ${apiToken}`
+    }
+  });
+  if (response.ok) {
+    const data = await response.json();
+    return {
+      customer: data.customer,
+      success: true
+    }
+  } else {
+    console.error("Failed to fetch customers");
+    return {
+      customer: null,
       success: false
     }
   }
@@ -147,7 +166,7 @@ export const getCustomerSubscriptions = async (baseUrl, apiToken) => {
     headers: {
       'Authorization': `Bearer ${apiToken}`
     }
-  }); 
+  });
   if (response.ok) {
     const data = await response.json();
     return {
@@ -158,6 +177,26 @@ export const getCustomerSubscriptions = async (baseUrl, apiToken) => {
     console.error("Failed to fetch customer subscriptions");
     return {
       customer_subscriptions: [],
+      success: false
+    }
+  }
+};
+
+export const runCustomerWorkflow = async (id, baseUrl, apiToken) => {
+  const response = await fetch(baseUrl + `/api/customers/workflows/${id}`, {
+    headers: {
+      'Authorization': `Bearer ${apiToken}`
+    },
+    method: 'POST'
+  });
+  if (response.ok) {
+    const data = await response.json();
+    return {
+      success: true
+    }
+  } else {
+    console.error("Failed to fetch customer subscriptions");
+    return {
       success: false
     }
   }

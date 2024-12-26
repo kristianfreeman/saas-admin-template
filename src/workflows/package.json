@@ -1,0 +1,7 @@
+{
+  "name": "saas-admin-template-workflows",
+  "private": true,
+  "scripts": {
+    "dev": "npx wrangler dev"
+  }
+}

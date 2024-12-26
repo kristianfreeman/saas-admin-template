@@ -26,7 +26,11 @@ const columns: ColumnDef<Customer>[] = [
   }),
   columnHelper.accessor('name', {
     header: 'Name',
-    cell: info => info.getValue(),
+    cell: info => {
+      return <a className="text-primary underline" href={`/admin/customers/${info.row.original.id}`}>
+        {info.getValue()}
+      </a>
+    }
   }),
   columnHelper.accessor('email', {
     header: 'Email',
