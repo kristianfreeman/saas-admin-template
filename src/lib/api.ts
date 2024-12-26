@@ -1,3 +1,5 @@
+import crypto from "node:crypto";
+
 const safeCompare = async (a, b) => {
   if (typeof a !== 'string' || typeof b !== 'string') return false;
   const encoder = new TextEncoder();
@@ -160,6 +162,28 @@ export const getSubscriptions = async (baseUrl, apiToken) => {
     }
   }
 };
+
+export const getSubscription = async (id, baseUrl, apiToken) => {
+  const response = await fetch(baseUrl + '/api/subscriptions/' + id, {
+    headers: {
+      'Authorization': `Bearer ${apiToken}`
+    }
+  });
+  if (response.ok) {
+    const data = await response.json();
+    return {
+      subscription: data.subscription,
+      success: true
+    }
+  } else {
+    console.error("Failed to fetch subscription");
+    return {
+      subscription: null,
+      success: false
+    }
+  }
+};
+
 
 export const getCustomerSubscriptions = async (baseUrl, apiToken) => {
   const response = await fetch(baseUrl + '/api/customer_subscriptions', {

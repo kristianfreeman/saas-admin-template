@@ -6,9 +6,9 @@ export async function GET({ locals, params, request }) {
   const invalidTokenResponse = await validateApiTokenResponse(request, API_TOKEN);
   if (invalidTokenResponse) return invalidTokenResponse;
 
-  const { include_subscriptions } = params;
+  const query = `
+  `
 
-  const query = `SELECT * FROM subscriptions`;
   const response = await DB.prepare(query).all();
 
   if (response.success) {
@@ -30,13 +30,13 @@ export async function POST({ locals, request }) {
 
   // Create the subscription
   const subscriptionResponse = await DB.prepare(
-    `INSERT INTO subscriptions (name, description, price) VALUES (?, ?, ?)`
+    `INSERT INTO subscriptions (name, description, price) VALUES(?, ?, ?)`
   )
     .bind(body.name, body.description, body.price)
     .run();
 
   if (!subscriptionResponse.success) {
-    return Response.json({ 
+    return Response.json({
       message: "Failed to create subscription",
       status: false
     }, { status: 500 });
@@ -47,10 +47,10 @@ export async function POST({ locals, request }) {
   // Skip feature processing if no features provided
   if (!body.features?.length) {
     return Response.json(
-      { 
+      {
         message: "Subscription created successfully",
         success: true
-      }, 
+      },
       { status: 201 }
     );
   }
@@ -58,10 +58,10 @@ export async function POST({ locals, request }) {
   // Prepare feature queries (insert + select pairs)
   const featureQueries = body.features.flatMap(feature => [
     DB.prepare(
-      `INSERT OR IGNORE INTO features (name, description) VALUES (?, ?)`
+      `INSERT OR IGNORE INTO features(name, description) VALUES(?, ?)`
     ).bind(feature.name, feature.description || null),
     DB.prepare(
-      `SELECT id FROM features WHERE name = ?`
+      `SELECT id FROM features WHERE name = ? `
     ).bind(feature.name),
   ]);
 
@@ -74,7 +74,7 @@ export async function POST({ locals, request }) {
     const featureId = featureResults[i + 1].results[0].id;
     relationshipQueries.push(
       DB.prepare(
-        `INSERT INTO subscription_features (subscription_id, feature_id) VALUES (?, ?)`
+        `INSERT INTO subscription_features(subscription_id, feature_id) VALUES(?, ?)`
       ).bind(subscriptionId, featureId)
     );
   }
