@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro build && wrangler pages dev",
-    "dev:workflow": "npx wrangler dev -c src/workflows/wrangler.toml",
+    "dev:workflow": "npx wrangler dev -c src/workflows/wrangler.json",
     "astro": "astro",
     "deploy": "astro build && wrangler pages deploy",
     "cf-typegen": "wrangler types"
