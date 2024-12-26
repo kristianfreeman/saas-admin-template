@@ -307,10 +307,10 @@ const apiEndpoints: APIEndpoint[] = [
   },
 ];
 
-export const APIDocumentation = ({ apiToken }: { apiToken: string }) => {
+export const APIDocumentation = ({ apiToken }: { apiToken?: string }) => {
   return (
     <div className="space-y-4">
-      <Card className="space-y-4">
+      <Card className={cn("space-y-4", apiToken ? "" : "border-red-500")}>
         <CardHeader>
           <CardTitle>Authentication</CardTitle>
           <CardDescription>
@@ -318,26 +318,34 @@ export const APIDocumentation = ({ apiToken }: { apiToken: string }) => {
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="space-y-4">
-          <div>
-            <Label className="space-y-2">
-              <span>API Token</span>
-              <div className="flex items-center space-x-2">
-                <Input placeholder="API token" readOnly value={apiToken} />
-              </div>
-            </Label>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Supported header styles</Label>
-
-            <div className="space-y-4">
-              <Input value={`Authorization: Bearer ${apiToken}`} readOnly />
-              <Input value={`Authorization: Token ${apiToken}`} readOnly />
-              <Input value={`x-api-token: ${apiToken}`} readOnly />
+        {apiToken ? (
+          <CardContent className="space-y-4">
+            <div>
+              <Label className="space-y-2">
+                <span>API Token</span>
+                <div className="flex items-center space-x-2">
+                  <Input placeholder="API token" readOnly value={apiToken} />
+                </div>
+              </Label>
             </div>
-          </div>
-        </CardContent>
+
+            <div className="space-y-2">
+              <Label>Supported header styles</Label>
+
+              <div className="space-y-4">
+                <Input value={`Authorization: Bearer ${apiToken}`} readOnly />
+                <Input value={`Authorization: Token ${apiToken}`} readOnly />
+                <Input value={`x-api-token: ${apiToken}`} readOnly />
+              </div>
+            </div>
+          </CardContent>
+        ) : (
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              API token not configured. Please configure an API token by setting a <a className="text-primary underline" href="https://developers.cloudflare.com/workers/configuration/secrets/">secret</a> named <code>API_TOKEN</code>.
+            </p>
+          </CardContent>
+        )}
       </Card>
 
       <div>
@@ -345,13 +353,13 @@ export const APIDocumentation = ({ apiToken }: { apiToken: string }) => {
           <Card key={index} className="mb-4">
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Badge 
+                <Badge
                   className={methodStyles(endpoint.method)}
                   variant={
                     endpoint.method === 'GET' ? 'default' :
-                    endpoint.method === 'POST' ? 'destructive' :
-                    endpoint.method === 'PUT' ? 'warning' :
-                    'secondary'
+                      endpoint.method === 'POST' ? 'destructive' :
+                        endpoint.method === 'PUT' ? 'warning' :
+                          'secondary'
                   }
                 >
                   {endpoint.method}
@@ -362,7 +370,7 @@ export const APIDocumentation = ({ apiToken }: { apiToken: string }) => {
                 {endpoint.description}
               </CardDescription>
             </CardHeader>
-  
+
             <CardContent>
               <Accordion type="single" collapsible>
                 {endpoint.parameters && endpoint.parameters.length > 0 && (
@@ -388,7 +396,7 @@ export const APIDocumentation = ({ apiToken }: { apiToken: string }) => {
                     </AccordionContent>
                   </AccordionItem>
                 )}
-  
+
                 {endpoint.requestBody && (
                   <AccordionItem value="request">
                     <AccordionTrigger>Request Body</AccordionTrigger>
@@ -404,10 +412,10 @@ export const APIDocumentation = ({ apiToken }: { apiToken: string }) => {
                     </AccordionContent>
                   </AccordionItem>
                 )}
-  
+
                 {endpoint.responses.map((response, responseIndex) => (
-                  <AccordionItem 
-                    key={responseIndex} 
+                  <AccordionItem
+                    key={responseIndex}
                     value={`response-${responseIndex}`}
                   >
                     <AccordionTrigger>
