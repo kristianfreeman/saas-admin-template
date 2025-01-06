@@ -7,6 +7,7 @@ export async function GET({ locals, params, request }) {
   if (invalidTokenResponse) return invalidTokenResponse;
 
   const query = `
+    SELECT * FROM subscriptions;
   `
 
   const response = await DB.prepare(query).all();
