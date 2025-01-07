@@ -1,10 +1,13 @@
 {
   "name": "saas-admin-template",
+  "main": "src/index.ts",
+  "assets": {
+    "directory": "./dist"
+  },
   "compatibility_date": "2024-12-18",
   "compatibility_flags": [
     "nodejs_compat"
   ],
-  "assets": { "directory": "./dist" },
   "vars": {
     "EXAMPLE_VALUE": "example_value"
   },
@@ -17,10 +20,9 @@
   ],
   "workflows": [
     {
-      "name": "customer_workflow",
+      "name": "saas-admin-template-customer-workflow",
       "binding": "CUSTOMER_WORKFLOW",
-      "class_name": "CustomerWorkflow",
-      "script_name": "./src/workflows/customer_workflow"
+      "class_name": "CustomerWorkflow"
     }
   ]
 }
