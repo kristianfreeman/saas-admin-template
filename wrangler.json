@@ -4,7 +4,7 @@
   "compatibility_flags": [
     "nodejs_compat"
   ],
-  "pages_build_output_dir": "./dist",
+  "assets": { "directory": "./dist" },
   "vars": {
     "EXAMPLE_VALUE": "example_value"
   },
@@ -15,10 +15,11 @@
       "database_id": "b33ea9ff-6aef-4b5c-b3fd-94f25295b08a"
     }
   ],
-  "services": [
+  "workflows": [
     {
+      "name": "customer_workflow",
       "binding": "CUSTOMER_WORKFLOW",
-      "service": "customer_workflow",
+      "class_name": "CustomerWorkflow",
       "script_name": "./src/workflows/customer_workflow"
     }
   ]
