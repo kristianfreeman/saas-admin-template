@@ -1,12 +1,10 @@
-//import crypto from "node:crypto";
-
 const safeCompare = async (a, b) => {
   if (typeof a !== 'string' || typeof b !== 'string') return false;
   const encoder = new TextEncoder();
   const aEncoded = encoder.encode(a);
   const bEncoded = encoder.encode(b);
   if (aEncoded.length !== bEncoded.length) return false;
-  return await crypto.timingSafeEqual(aEncoded, bEncoded);
+  return await crypto.subtle.timingSafeEqual(aEncoded, bEncoded);
 };
 
 export const validateApiTokenResponse = async (request, apiToken) => {
@@ -207,7 +205,7 @@ export const getCustomerSubscriptions = async (baseUrl, apiToken) => {
 };
 
 export const runCustomerWorkflow = async (id, baseUrl, apiToken) => {
-  const response = await fetch(baseUrl + `/api/customers/workflows/${id}`, {
+  const response = await fetch(baseUrl + `/api/customers/${id}/workflow`, {
     headers: {
       'Authorization': `Bearer ${apiToken}`
     },

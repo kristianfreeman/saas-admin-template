@@ -23,7 +23,6 @@ import { useForm } from "react-hook-form"
 import { createSubscription } from "@/lib/api"
 import * as z from "zod"
 
-// Define the form validation schema
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
@@ -46,7 +45,6 @@ export function CreateSubscriptionButton({ apiToken }: { apiToken: string }) {
   const [features, setFeatures] = useState<Feature[]>([])
   const [newFeature, setNewFeature] = useState<Feature>({ name: '', description: '' })
 
-  // Initialize the form
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -71,7 +69,6 @@ export function CreateSubscriptionButton({ apiToken }: { apiToken: string }) {
     form.setValue('features', updatedFeatures)
   }
 
-  // Handle form submission
   const onSubmit = async (data: FormValues) => {
     try {
       const url = new URL(window.location.href)
@@ -84,7 +81,6 @@ export function CreateSubscriptionButton({ apiToken }: { apiToken: string }) {
         throw new Error("Failed to create subscription")
       }
 
-      // Reset form and close modal
       form.reset()
       setFeatures([])
       setOpen(false)

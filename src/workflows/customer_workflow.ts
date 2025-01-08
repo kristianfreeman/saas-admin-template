@@ -33,9 +33,3 @@ export class CustomerWorkflow extends WorkflowEntrypoint<Env, Params> {
     });
   }
 }
-
-export default {
-  async fetch(request, env) {
-    return env.ASSETS.fetch(request);
-  },
-};

@@ -26,8 +26,6 @@ const processSubscriptionResults = (rows) => {
       subscriptionsMap.set(row.id, subscription);
     }
 
-    console.log(row);
-
     if (row.feature_id) {
       const subscription = subscriptionsMap.get(row.id);
       subscription.features.push({

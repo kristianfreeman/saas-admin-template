@@ -14,7 +14,6 @@ import { useState } from "react"
 export function RunCustomerWorkflowButton({ apiToken }: { apiToken: string }) {
   const [open, setOpen] = useState(false)
 
-  // Handle form submission
   const onSubmit = async () => {
     try {
       const url = new URL(window.location.href)

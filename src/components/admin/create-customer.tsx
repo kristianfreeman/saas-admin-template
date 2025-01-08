@@ -23,7 +23,6 @@ import { useForm } from "react-hook-form"
 import { createCustomer } from "@/lib/api"
 import * as z from "zod"
 
-// Define the form validation schema
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
@@ -35,7 +34,6 @@ type FormValues = z.infer<typeof formSchema>
 export function CreateCustomerButton({ apiToken }: { apiToken: string }) {
   const [open, setOpen] = useState(false)
 
-  // Initialize the form
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,12 +43,8 @@ export function CreateCustomerButton({ apiToken }: { apiToken: string }) {
     },
   })
 
-  // Handle form submission
   const onSubmit = async (data: FormValues) => {
     try {
-      // Here you would typically make an API call to create the customer
-      console.log("Form submitted:", data)
-
       const url = new URL(window.location.href)
       const response = await createCustomer(url.origin, apiToken, data)
 
@@ -58,7 +52,6 @@ export function CreateCustomerButton({ apiToken }: { apiToken: string }) {
         throw new Error("Failed to create customer")
       }
 
-      // reload page
       window.location.reload()
     } catch (error) {
       console.error("Error creating customer:", error)
