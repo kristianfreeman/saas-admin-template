@@ -11,6 +11,6 @@ export async function POST({ locals, request, params }: { locals: App.Locals; re
   if (invalidTokenResponse) return invalidTokenResponse;
 
   const { id } = params;
-  await CUSTOMER_WORKFLOW.createInstance({ id });
-  return Response.json({ success: true }, { status: 204 });
+  await CUSTOMER_WORKFLOW.create({ params: { id } });
+  return new Response(null, { status: 202 });
 }

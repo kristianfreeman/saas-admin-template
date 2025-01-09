@@ -1,6 +1,6 @@
 {
   "name": "saas-admin-template",
-  "main": "./dist/_worker.js/index.js",
+  "main": "./dist/index.js",
   "assets": {
     "directory": "./dist"
   },
@@ -22,8 +22,7 @@
     {
       "name": "saas-admin-template-customer-workflow",
       "binding": "CUSTOMER_WORKFLOW",
-      "class_name": "CustomerWorkflow",
-      "script_name": "./src/workflows/customer_workflow"
+      "class_name": "CustomerWorkflow"
     }
   ]
 }

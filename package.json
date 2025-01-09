@@ -6,9 +6,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro build && wrangler pages dev",
-    "wrangler:dev": "astro build && npx wrangler dev",
+    "wrangler:dev": "astro build && npm run wrangler:wrapper && npx wrangler dev",
+    "wrangler:wrapper": "cp src/workflows/wrapper.js dist/index.js",
     "astro": "astro",
-    "deploy": "astro build && wrangler pages deploy",
+    "deploy": "astro build && npm run wrangler:wrapper && wrangler pages deploy",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {

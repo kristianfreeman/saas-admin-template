@@ -8,16 +8,16 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog"
 import { Workflow } from "lucide-react"
-import { createSubscription } from "@/lib/api"
+import { runCustomerWorkflow } from "@/lib/api"
 import { useState } from "react"
 
-export function RunCustomerWorkflowButton({ apiToken }: { apiToken: string }) {
+export function RunCustomerWorkflowButton({ apiToken, customerId }: { apiToken: string, customerId: string }) {
   const [open, setOpen] = useState(false)
 
   const onSubmit = async () => {
     try {
       const url = new URL(window.location.href)
-      const response = await createSubscription(url.origin, apiToken)
+      const response = await runCustomerWorkflow(customerId, url.origin, apiToken)
 
       if (!response.success) {
         throw new Error("Failed to create subscription")

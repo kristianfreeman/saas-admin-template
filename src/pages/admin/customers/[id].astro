@@ -37,6 +37,6 @@ const customer = customerResponse.customer;
   </Table>
 
   <div slot="actions">
-    <RunCustomerWorkflowButton apiToken={API_TOKEN} client:only="react" />
+    <RunCustomerWorkflowButton apiToken={API_TOKEN} client:only="react" customerId={id} />
   </div>
 </Layout>
