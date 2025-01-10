@@ -1,48 +1,87 @@
-# Astro Starter Kit: Basics
+# SaaS Admin Template
 
-```sh
-npm create astro@latest -- --template basics
+A complete admin dashboard template built with Astro, Shadcn UI, and Cloudflare's developer stack. Quickly deploy a fully functional admin interface with customer and subscription management capabilities.
+
+## Features
+
+- 🎨 Modern UI built with Astro and Shadcn UI
+- 🔐 Built-in API with token authentication
+- 👥 Customer management
+- 💳 Subscription tracking
+- 🚀 Deploy to Cloudflare Workers
+- 📦 Powered by Cloudflare D1 database
+- ✨ Clean, responsive interface
+- 🔍 Data validation with Zod
+
+## Tech Stack
+
+- Frontend: [Astro](https://astro.build)
+- UI Components: [Shadcn UI](https://ui.shadcn.com)
+- Database: [Cloudflare D1](https://developers.cloudflare.com/d1)
+- Deployment: [Cloudflare Workers](https://workers.cloudflare.com)
+- Validation: [Zod](https://github.com/colinhacks/zod)
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/kristianfreeman/saas-admin-template.git
+cd saas-admin-template
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+2. Install dependencies:
+```bash
+npm install
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+3. Set up your environment variables:
+```bash
+# Create a .dev.vars file for local development
+touch .dev.vars
+```
 
-## 🧞 Commands
+Add your API token:
+```
+API_TOKEN=your_token_here
+```
 
-All commands are run from the root of the project, from a terminal:
+## Development
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Run the development server:
+```bash
+npm run dev
+```
 
-## 👀 Want to learn more?
+If you're testing Workflows, you should run `npm run wrangler:dev` instead.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Deployment
+
+Deploy to Cloudflare Workers:
+```bash
+npm run deploy
+```
+
+Set your production API token:
+```bash
+npx wrangler secret put API_TOKEN
+```
+
+## API Endpoints
+
+(Documentation coming soon)
+
+All API endpoints require authentication via API token.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+[MIT License](LICENSE)
+
+If you have any questions or run into issues, please open an issue in the repository.
+
+---
+
+Note: This project is under active development. Production use is not recommended yet.
