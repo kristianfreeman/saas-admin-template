@@ -8,6 +8,10 @@
   "compatibility_flags": [
     "nodejs_compat"
   ],
+  "observability": {
+    "enabled": true
+  },
+  "upload_source_maps": true,
   "vars": {
     "EXAMPLE_VALUE": "example_value"
   },

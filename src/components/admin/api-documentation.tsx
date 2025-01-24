@@ -307,10 +307,10 @@ const apiEndpoints: APIEndpoint[] = [
   },
 ];
 
-export const APIDocumentation = ({ apiToken }: { apiToken?: string }) => {
+export const APIDocumentation = ({ apiTokenSet }: { apiTokenSet: boolean }) => {
   return (
     <div className="space-y-4">
-      <Card className={cn("space-y-4", apiToken ? "" : "border-red-500")}>
+      <Card className={cn("space-y-4", apiTokenSet ? "" : "border-red-500")}>
         <CardHeader>
           <CardTitle>Authentication</CardTitle>
           <CardDescription>
@@ -318,24 +318,15 @@ export const APIDocumentation = ({ apiToken }: { apiToken?: string }) => {
           </CardDescription>
         </CardHeader>
 
-        {apiToken ? (
+        {apiTokenSet ? (
           <CardContent className="space-y-4">
-            <div>
-              <Label className="space-y-2">
-                <span>API Token</span>
-                <div className="flex items-center space-x-2">
-                  <Input placeholder="API token" readOnly value={apiToken} />
-                </div>
-              </Label>
-            </div>
-
             <div className="space-y-2">
               <Label>Supported header styles</Label>
 
               <div className="space-y-4">
-                <Input value={`Authorization: Bearer ${apiToken}`} readOnly />
-                <Input value={`Authorization: Token ${apiToken}`} readOnly />
-                <Input value={`x-api-token: ${apiToken}`} readOnly />
+                <Input value="Authorization: Bearer $apiToken" readOnly />
+                <Input value="Authorization: Token $apiToken" readOnly />
+                <Input value="x-api-token: $apiToken" readOnly />
               </div>
             </div>
           </CardContent>

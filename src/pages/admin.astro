@@ -9,6 +9,7 @@ import { getCustomers, getSubscriptions, getCustomerSubscriptions } from '@/lib/
 
 const baseUrl = Astro.url.origin;
 const { API_TOKEN, DB } = Astro.locals.runtime.env;
+const apiTokenSet = !!API_TOKEN;
 
 const customersResponse = await getCustomers(baseUrl, API_TOKEN);
 const subscriptionsResponse = await getSubscriptions(baseUrl, API_TOKEN);
@@ -56,7 +57,7 @@ const data = [
     <section class="space-y-4">
       <h2 class="text-3xl font-bold tracking-tight">API</h2>
       <div>
-        <APIDocumentation apiToken={API_TOKEN} client:only="react" />
+        <APIDocumentation apiTokenSet={apiTokenSet} client:only="react" />
       </div>
     </section>
   </div>
