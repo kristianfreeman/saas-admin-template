@@ -24,17 +24,20 @@ A complete admin dashboard template built with Astro, Shadcn UI, and Cloudflare'
 ## Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/kristianfreeman/saas-admin-template.git
 cd saas-admin-template
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Set up your environment variables:
+
 ```bash
 # Create a .dev.vars file for local development
 touch .dev.vars
@@ -47,7 +50,14 @@ API_TOKEN=your_token_here
 
 ## Development
 
+Run the database migrations locally:
+
+```bash
+$ npm run db:migrate
+```
+
 Run the development server:
+
 ```bash
 npm run dev
 ```
@@ -57,11 +67,19 @@ If you're testing Workflows, you should run `npm run wrangler:dev` instead.
 ## Deployment
 
 Deploy to Cloudflare Workers:
+
 ```bash
 npm run deploy
 ```
 
+Run the database migrations remotely:
+
+```bash
+$ npm run db:migrate:remote
+```
+
 Set your production API token:
+
 ```bash
 npx wrangler secret put API_TOKEN
 ```
