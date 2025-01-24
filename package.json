@@ -9,6 +9,7 @@
     "wrangler:dev": "astro build && npm run wrangler:wrapper && npx wrangler dev",
     "wrangler:wrapper": "cp src/workflows/wrapper.js dist/index.js",
     "astro": "astro",
+    "predeploy": "npm run db:migrate:remote",
     "deploy": "astro build && npm run wrangler:wrapper && wrangler deploy",
     "cf-typegen": "wrangler types",
     "db:migrate": "wrangler d1 migrations apply DB",
