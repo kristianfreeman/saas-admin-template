@@ -3,10 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro build && npm run wrangler:wrapper && npx wrangler dev",
     "build": "astro build",
     "preview": "astro build && wrangler dev",
-    "wrangler:dev": "astro build && npm run wrangler:wrapper && npx wrangler dev",
     "wrangler:wrapper": "cp src/workflows/wrapper.js dist/index.js",
     "astro": "astro",
     "predeploy": "npm run db:migrate:remote",

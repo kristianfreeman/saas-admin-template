@@ -2,9 +2,12 @@
 import '@/styles/globals.css'
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/Header';
+import ApiTokenMissingCard from '@/components/admin/api-token-missing-card';
 
 const currentPath = Astro.url.pathname;
 const title = Astro.props.title || 'SaaS Admin Template';
+const { API_TOKEN } = Astro.locals.runtime.env;
+const apiTokenSet = API_TOKEN && API_TOKEN !== '';
 ---
 
 <script is:inline>
@@ -38,6 +41,9 @@ const title = Astro.props.title || 'SaaS Admin Template';
   <body>
     <Header currentPath={currentPath} />
     <div class="flex-1 space-y-4 p-8 pt-6">
+      <div class="mb-4">
+        {!apiTokenSet && <ApiTokenMissingCard />}
+      </div>
       <div class="flex items-center justify-between">
         <h2 class="text-3xl font-bold tracking-tight">{title}</h2>
         <slot name="actions" />
