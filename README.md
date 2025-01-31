@@ -1,5 +1,7 @@
 # SaaS Admin Template
 
+![SaaS Admin Template](https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/52b88668-0144-489c-dd02-fe620270ba00/public)
+
 A complete admin dashboard template built with Astro, Shadcn UI, and Cloudflare's developer stack. Quickly deploy a fully functional admin interface with customer and subscription management capabilities.
 
 ## Features
@@ -21,22 +23,18 @@ A complete admin dashboard template built with Astro, Shadcn UI, and Cloudflare'
 - Deployment: [Cloudflare Workers](https://workers.cloudflare.com)
 - Validation: [Zod](https://github.com/colinhacks/zod)
 
-## Installation
+> [!IMPORTANT]
+> When using C3 to create this project, select "no" when it asks if you want to deploy. You need to follow this project's [setup steps](https://github.com/cloudflare/templates/tree/main/d1-template#setup-steps) before deploying.
 
-1. Clone the repository:
+## Setup Steps
 
-```bash
-git clone https://github.com/kristianfreeman/saas-admin-template.git
-cd saas-admin-template
-```
-
-2. Install dependencies:
+1. Install dependencies:
 
 ```bash
 npm install
 ```
 
-3. Set up your environment variables:
+2. Set up your environment variables:
 
 ```bash
 # Create a .dev.vars file for local development
@@ -44,13 +42,21 @@ touch .dev.vars
 ```
 
 Add your API token:
+
 ```
 API_TOKEN=your_token_here
 ```
 
-## Development
+_An API token is required to authenticate requests to the API. You should generate this before trying to run the project locally or deploying it._
 
-Run the database migrations locally:
+3. Create a [D1 database](https://developers.cloudflare.com/d1/get-started/) with the name "admin-db":
+
+```bash
+npx wrangler d1 create admin-db
+```
+...and update the `database_id` field in `wrangler.json` with the new database ID.
+
+4. Run the database migrations locally:
 
 ```bash
 $ npm run db:migrate
@@ -62,44 +68,28 @@ Run the development server:
 npm run dev
 ```
 
-If you're testing Workflows, you should run `npm run wrangler:dev` instead.
+_If you're testing Workflows, you should run `npm run wrangler:dev` instead._
 
-## Deployment
-
-Deploy to Cloudflare Workers:
+5. Deploy to Cloudflare Workers:
 
 ```bash
 npm run deploy
 ```
 
-Run the database migrations remotely:
+6. Run the database migrations remotely:
 
 ```bash
 $ npm run db:migrate:remote
 ```
 
-Set your production API token:
+7. Set your production API token:
 
 ```bash
 npx wrangler secret put API_TOKEN
 ```
 
-## API Endpoints
+## Usage
 
-(Documentation coming soon)
+This project includes a fully functional admin dashboard with customer and subscription management capabilities. It also includes an API with token authentication to access resources via REST, returning JSON data.
 
-All API endpoints require authentication via API token.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-[MIT License](LICENSE)
-
-If you have any questions or run into issues, please open an issue in the repository.
-
----
-
-Note: This project is under active development. Production use is not recommended yet.
+It also includes a "Customer Workflow", built with [Cloudflare Workflows](https://developers.cloudflare.com/workflows). This workflow can be triggered in the UI or via the REST API to do arbitrary actions in the background for any given user. See [`customer_workflow.ts`]() to learn more about what you can do in this workflow.
