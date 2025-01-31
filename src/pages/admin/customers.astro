@@ -1,18 +1,19 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import { getCustomers } from '@/lib/api';
+import { CustomerService } from "@/lib/services/customer";
 
-const { API_TOKEN } = Astro.locals.runtime.env;
-const baseUrl = Astro.url.origin;
-const customersResponse = await getCustomers(baseUrl, API_TOKEN);
+const { API_TOKEN, DB } = Astro.locals.runtime.env;
+
+const customerService = new CustomerService(DB);
+const customers = await customerService.getAll();
 
 import { CustomersTable } from '@/components/admin/customers-table';
 import { CreateCustomerButton } from '@/components/admin/create-customer';
 ---
 
 <Layout title="Customers">
-  {customersResponse.customers.length ? (
-    <CustomersTable data={customersResponse.customers} />
+  {customers.length ? (
+    <CustomersTable data={customers} />
   ) : (
     <p class="font-medium text-muted-foreground">
       No customers yet. Try creating one using the API or by selecting "Create New Customer" above.

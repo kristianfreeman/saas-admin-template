@@ -1,4 +1,5 @@
 import { validateApiTokenResponse } from "@/lib/api";
+import { CustomerSubscriptionService } from "@/lib/services/customer_subscription";
 
 export async function GET({ locals, params, request }) {
   const { API_TOKEN, DB } = locals.runtime.env;
@@ -6,12 +7,12 @@ export async function GET({ locals, params, request }) {
   const invalidTokenResponse = await validateApiTokenResponse(request, API_TOKEN);
   if (invalidTokenResponse) return invalidTokenResponse;
 
-  const query = `SELECT * FROM customer_subscriptions`;
-  const response = await DB.prepare(query).all();
+  const customerSubscriptionService = new CustomerSubscriptionService(DB);
+  const customerSubscriptions = await customerSubscriptionService.getAll();
 
-  if (response.success) {
+  if (customerSubscriptions.length) {
     return Response.json({
-      customer_subscriptions: response.results
+      customer_subscriptions: customerSubscriptions
     });
   } else {
     return Response.json({ message: "Couldn't load customer subscriptions" }, { status: 500 });
@@ -25,12 +26,9 @@ export async function POST({ locals, request }) {
   if (invalidTokenResponse) return invalidTokenResponse;
 
   const body = await request.json();
-  const query = `INSERT INTO customer_subscriptions (customer_id, subscription_id, subscription_ends_at) VALUES (?, ?, ?)`;
-  const defaultSubscriptionEndsAt = Date.now() + (60 * 60 * 24 * 30);
-  const response = await DB
-    .prepare(query)
-    .bind(body.customer_id, body.subscription_id, body.subscription_ends_at || defaultSubscriptionEndsAt)
-    .run();
+  const customerSubscriptionService = new CustomerSubscriptionService(DB);
+
+  const response = await customerSubscriptionService.create(body);
 
   if (response.success) {
     return Response.json({ message: "Customer subscription created successfully", success: true }, { status: 201 });

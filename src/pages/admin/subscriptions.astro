@@ -1,18 +1,17 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import { getSubscriptions } from '@/lib/api';
-
-const { API_TOKEN } = Astro.locals.runtime.env;
-const baseUrl = Astro.url.origin;
-const subscriptionsResponse = await getSubscriptions(baseUrl, API_TOKEN);
-
+import { SubscriptionService } from '@/lib/services/subscription';
 import { CreateSubscriptionButton } from '@/components/admin/create-subscription';
 import { SubscriptionsTable } from '@/components/admin/subscriptions-table';
+
+const { API_TOKEN, DB } = Astro.locals.runtime.env;
+const subscriptionService = new SubscriptionService(DB);
+const subscriptions = await subscriptionService.getAll();
 ---
 
 <Layout title="Subscriptions">
-  {subscriptionsResponse.subscriptions.length ? (
-    <SubscriptionsTable data={subscriptionsResponse.subscriptions} />
+  {subscriptions.length ? (
+    <SubscriptionsTable data={subscriptions} />
   ) : (
     <p class="font-medium text-muted-foreground">
       No subscriptions yet. Try creating one using the API or by selecting "Create New Subscription" above.

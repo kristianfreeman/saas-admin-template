@@ -1,18 +1,15 @@
 ---
 import { RunCustomerWorkflowButton } from '@/components/admin/run-customer-workflow';
 import Layout from '@/layouts/Layout.astro';
-import { getCustomer } from '@/lib/api';
+import { CustomerService } from '@/lib/services/customer';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
-const { API_TOKEN } = Astro.locals.runtime.env;
+const { API_TOKEN, DB } = Astro.locals.runtime.env;
 const { id } = Astro.params;
-const baseUrl = Astro.url.origin;
-const customerResponse = await getCustomer(id, baseUrl, API_TOKEN);
 
-const customer = customerResponse.customer;
+const customerService = new CustomerService(DB);
+const customer = await customerService.getById(id);
 ---
-
-
 <Layout title={customer.name}>
   <h2 class="text-xl font-bold tracking-tight">Customer Details</h2>
   <Table>

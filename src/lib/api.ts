@@ -51,7 +51,8 @@ export const validateApiToken = async (request, apiToken) => {
 };
 
 export const getCustomers = async (baseUrl, apiToken) => {
-  const response = await fetch(baseUrl + '/api/customers', {
+  const url = `${baseUrl}/api/customers`;
+  const response = await fetch(url, {
     headers: {
       'Authorization': `Bearer ${apiToken}`
     }

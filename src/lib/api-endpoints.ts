@@ -224,60 +224,70 @@ const apiEndpoints: APIEndpoint[] = [
   },
   {
     method: 'POST',
-    path: '/api/subscriptions',
-    description: 'Create a new subscription',
+    path: '/api/customer-subscriptions',
+    description: 'Create a new customer subscription',
     parameters: [
       {
-        name: "name",
+        name: 'customer_id',
         type: 'string',
         required: true,
-        description: "Name of the subscription"
+        description: 'ID of the customer'
       },
       {
-        name: "description",
+        name: 'subscription_id',
+        type: 'string',
+        required: true,
+        description: 'ID of the subscription plan'
+      },
+      {
+        name: 'start_date',
+        type: 'string',
+        required: true,
+        description: 'Start date of the subscription (ISO 8601 format)'
+      },
+      {
+        name: 'end_date',
         type: 'string',
         required: false,
-        description: "Description of the subscription"
-      },
-      {
-        name: "price",
-        type: 'number',
-        required: true,
-        description: "Price of the subscription"
-      },
-      {
-        name: "features",
-        type: 'array',
-        required: false,
-        description: "Array of feature objects"
+        description: 'End date of the subscription (ISO 8601 format)'
       }
     ],
-
     requestBody: {
       example: {
-        name: 'Basic',
-        description: '$9.99 per month',
-        price: 9.99,
-        features: [
-          {
-            name: 'Feature 1',
-            description: 'This is a feature description'
-          },
-          {
-            name: 'Feature 2',
-            description: 'This is another feature description'
-          }
-        ]
+        customer_id: '456',
+        subscription_id: '789',
+        start_date: '2024-01-01',
+        end_date: '2025-01-01'
       }
     },
     responses: [
       {
-        name: 'Response',
+        name: 'Success Response',
         example: {
-          message: 'Customer created successfully',
-          success: true
+          message: 'Customer subscription created successfully',
+          success: true,
+          customer_subscription: {
+            id: '123',
+            customer_id: '456',
+            subscription_id: '789',
+            status: 'active',
+            start_date: '2024-01-01',
+            end_date: '2025-01-01',
+            current_period_start: '2024-01-01',
+            current_period_end: '2024-02-01',
+            cancel_at_period_end: false,
+            created_at: '2024-01-01T00:00:00Z',
+            updated_at: '2024-01-01T00:00:00Z'
+          }
         }
       },
+      {
+        name: 'Error Response',
+        example: {
+          message: "Couldn't create customer subscription",
+          success: false
+        }
+      }
     ]
   },
 ];

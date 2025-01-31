@@ -55,38 +55,47 @@ export function CreateSubscriptionButton({ apiToken }: { apiToken: string }) {
     },
   })
 
-  const addFeature = () => {
-    if (newFeature.name.trim()) {
-      setFeatures([...features, newFeature])
-      setNewFeature({ name: '', description: '' })
-      form.setValue('features', [...features, newFeature])
-    }
-  }
-
   const removeFeature = (index: number) => {
     const updatedFeatures = features.filter((_, i) => i !== index)
     setFeatures(updatedFeatures)
     form.setValue('features', updatedFeatures)
   }
 
+  const addFeature = async () => {
+    if (newFeature.name.trim()) {
+      return new Promise<Feature[]>(resolve => {
+        setFeatures(prevFeatures => {
+          const updatedFeatures = [...prevFeatures, newFeature];
+          form.setValue('features', updatedFeatures);
+          resolve(updatedFeatures);
+          return updatedFeatures;
+        });
+        setNewFeature({ name: '', description: '' });
+      });
+    }
+    return features;
+  }
+
   const onSubmit = async (data: FormValues) => {
     try {
-      const url = new URL(window.location.href)
+      let currentFeatures = features;
+      if (newFeature.name.trim()) {
+        currentFeatures = await addFeature();
+      }
+      const url = new URL(window.location.href);
       const response = await createSubscription(url.origin, apiToken, {
         ...data,
-        features: features,
-      })
-
+        features: currentFeatures, // Use the up-to-date features
+      });
       if (!response.success) {
-        throw new Error("Failed to create subscription")
+        throw new Error("Failed to create subscription");
       }
-
-      form.reset()
-      setFeatures([])
-      setOpen(false)
-      window.location.reload()
+      form.reset();
+      setFeatures([]);
+      setOpen(false);
+      window.location.reload();
     } catch (error) {
-      console.error("Error creating subscription:", error)
+      console.error("Error creating subscription:", error);
     }
   }
 
@@ -156,8 +165,7 @@ export function CreateSubscriptionButton({ apiToken }: { apiToken: string }) {
 
             <div className="space-y-4">
               <FormLabel>Features</FormLabel>
-              
-              {/* Feature List */}
+
               <div className="space-y-2">
                 {features.map((feature, index) => (
                   <div key={index} className="flex items-center gap-2 p-2 border rounded-md">
@@ -179,7 +187,6 @@ export function CreateSubscriptionButton({ apiToken }: { apiToken: string }) {
                 ))}
               </div>
 
-              {/* Add Feature Form */}
               <div className="flex gap-2">
                 <div className="flex-1 space-y-2">
                   <Input

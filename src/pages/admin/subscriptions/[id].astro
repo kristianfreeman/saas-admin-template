@@ -1,14 +1,12 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import { getSubscription } from '@/lib/api';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import Layout from '@/layouts/Layout.astro';
+import { SubscriptionService } from '@/lib/services/subscription';
 
-const { API_TOKEN } = Astro.locals.runtime.env;
+const { API_TOKEN, DB } = Astro.locals.runtime.env;
 const { id } = Astro.params;
-const baseUrl = Astro.url.origin;
-const subscriptionResponse = await getSubscription(id, baseUrl, API_TOKEN);
-
-const subscription = subscriptionResponse.subscription;
+const subscriptionService = new SubscriptionService(DB);
+const subscription = await subscriptionService.getById(id);
 ---
 
 <Layout title={subscription.name}>
