@@ -112,6 +112,32 @@ const apiEndpoints: APIEndpoint[] = [
   },
   {
     method: 'GET',
+    path: '/api/customers/:id',
+    description: 'Retrieve a single customer',
+    parameters: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'ID of the customer'
+      }
+    ],
+    responses: [
+      {
+        name: 'Response',
+        example: {
+          customer: {
+            id: 1,
+            name: 'John Doe',
+            email: 'john@example.com'
+          }
+        },
+        description: 'Returns a customer object'
+      }
+    ]
+  },
+  {
+    method: 'GET',
     path: '/api/subscriptions',
     description: 'Retrieve a list of all subscriptions',
     responses: [
@@ -170,7 +196,6 @@ const apiEndpoints: APIEndpoint[] = [
         description: "Array of feature objects"
       }
     ],
-
     requestBody: {
       example: {
         name: 'Basic',
@@ -196,6 +221,35 @@ const apiEndpoints: APIEndpoint[] = [
           success: true
         }
       },
+    ]
+  },
+  {
+    method: 'GET',
+    path: '/api/subscriptions/:id',
+    description: 'Retrieve a single subscription',
+    parameters: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'ID of the subscription'
+      }
+    ],
+    responses: [
+      {
+        name: 'Response',
+        example: {
+          subscription: {
+            id: 1,
+            name: 'Basic',
+            description: '$9.99 per month',
+            price: 9.99,
+            created_at: '2023-01-01T00:00:00.000Z',
+            updated_at: '2023-01-01T00:00:00.000Z'
+          }
+        },
+        description: 'Returns a subscription object'
+      }
     ]
   },
   {
@@ -288,6 +342,26 @@ const apiEndpoints: APIEndpoint[] = [
           success: false
         }
       }
+    ]
+  },
+  {
+    method: 'POST',
+    path: '/api/customer/[:id]/workflow',
+    description: 'Start a workflow for a customer',
+    parameters: [
+      {
+        name: 'customer_id',
+        type: 'string',
+        required: true,
+        description: 'ID of the customer'
+      },
+    ],
+    responses: [
+      {
+        name: 'Success Response',
+        description: 'Empty body with status code 202',
+        example: null
+      },
     ]
   },
 ];
